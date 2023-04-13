@@ -1,5 +1,7 @@
 import os
-from telegram.ext import Updater, CommandHandler
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
+
+from InvalidCommandClass import InvalidCommand
 from StartCommandClass import StartCommand
 from HelpCommandClass import HelpCommand
 
@@ -11,6 +13,9 @@ class Bot():
         self.dispatcher = self.updater.dispatcher
         self.dispatcher.add_handler(CommandHandler('start', StartCommand.execute))
         self.dispatcher.add_handler(CommandHandler('help', HelpCommand.execute))
+
+        # Обработчик неизвестных команд
+        self.dispatcher.add_handler(MessageHandler(Filters.command, InvalidCommand.execute))
 
     def start(self):
         """Запуск бота"""
