@@ -1,6 +1,7 @@
 import os
-
-from telegram.ext import Updater
+from telegram.ext import Updater, CommandHandler
+from StartCommandClass import StartCommand
+from HelpCommandClass import HelpCommand
 
 BOT_API_KEY = os.environ['TelegramAPIKey']
 
@@ -8,6 +9,8 @@ class Bot():
     def __init__(self, token):
         self.updater = Updater(token=token, use_context=True)
         self.dispatcher = self.updater.dispatcher
+        self.dispatcher.add_handler(CommandHandler('start', StartCommand.execute))
+        self.dispatcher.add_handler(CommandHandler('help', HelpCommand.execute))
 
     def start(self):
         """Запуск бота"""
